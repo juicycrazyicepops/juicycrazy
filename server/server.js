@@ -30,12 +30,12 @@ app.use(express.json());
     const allowedOrigins = [
       "http://localhost:5173",
       "https://juicy-and-crazy.vercel.app",
-      "juicycrazy.vercel.app",
+      "https://juicycrazy.vercel.app/",
     ];
 
     app.use(
       cors({
-        origin: ["http://localhost:5173", "https://juicy-and-crazy.vercel.app"],
+        origin: ["http://localhost:5173", "https://juicy-and-crazy.vercel.app","https://juicycrazy.vercel.app/"],
         credentials: true,
       })
     );
