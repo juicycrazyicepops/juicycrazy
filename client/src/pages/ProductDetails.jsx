@@ -6,7 +6,7 @@ import ProductCard from "../components/ProductCard";
 import toast from "react-hot-toast";
 
 const ProductDetails = () => {
-  const { products, currency, addToCart } = useAppContext();
+  const { products, currency, addToCart,user } = useAppContext();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -144,22 +144,35 @@ const ProductDetails = () => {
 
           <div className="flex gap-4 mt-8">
             <button
-              onClick={() => addToCart(product._id)}
-              className="w-full py-3.5 bg-gray-100 text-gray-700 rounded font-medium transition duration-300 ease-in-out 
+  onClick={() => {
+    if (!user) {
+      toast.error("Please login first!");
+      navigate("/login"); 
+      return;
+    }
+    addToCart(product._id);
+  }}
+  className="w-full py-3.5 bg-gray-100 text-gray-700 rounded font-medium transition duration-300 ease-in-out 
              hover:bg-[#003B2F] hover:text-white hover:shadow-lg cursor-pointer "
-            >
-              Add to Cart
-            </button>
-            <button
-              onClick={() => {
-                addToCart(product._id);
-                navigate("/cart");
-              }}
-              className="w-full px-5 py-2 bg-[#D4AF37] text-[#003B2F] font-semibold rounded transition duration-300 ease-in-out 
+>
+  Add to Cart
+</button>
+
+<button
+  onClick={() => {
+    if (!user) {
+      toast.error("Please login first!");
+      navigate("/login");
+      return;
+    }
+    addToCart(product._id);
+    navigate("/cart");
+  }}
+  className="w-full px-5 py-2 bg-[#D4AF37] text-[#003B2F] font-semibold rounded transition duration-300 ease-in-out 
              hover:bg-[#003B2F] hover:text-white hover:shadow-lg cursor-pointer "
-            >
-              Buy Now
-            </button>
+>
+  Buy Now
+</button>
           </div>
         </div>
       </div>

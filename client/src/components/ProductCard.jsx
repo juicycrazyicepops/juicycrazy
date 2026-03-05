@@ -1,10 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useAppContext } from "../context/AppContext";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useAppContext();
+  const { addToCart, user } = useAppContext();
+
 
   // Determine the unit text
   const unitText =
@@ -30,16 +32,21 @@ const ProductCard = ({ product }) => {
         <p className="text-sm text-gray-600 mb-3">
           ₹{product.offerPrice} {unitText}
         </p>
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          className="px-5 py-2 bg-[#D4AF37] text-[#003B2F] font-semibold rounded-full hover:opacity-90 transition cursor-pointer "
-          onClick={(e) => {
-            e.stopPropagation();
-            addToCart(product._id);
-          }}
-        >
-          Add to Cart
-        </motion.button>
+       <motion.button
+  whileTap={{ scale: 0.95 }}
+  className="px-5 py-2 bg-[#D4AF37] text-[#003B2F] font-semibold rounded-full hover:opacity-90 transition cursor-pointer "
+  onClick={(e) => {
+    e.stopPropagation();
+    if (!user) {
+      toast.error("Please login first!");
+      Navigate("/login");
+      return;
+    }
+    addToCart(product._id);
+  }}
+>
+  Add to Cart
+</motion.button>
       </div>
     </motion.div>
   );
